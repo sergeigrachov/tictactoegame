@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
 
 const GAME_FIELDS_AREA: string[] = new Array(9).fill('');
 const GAME_FIELDS: any = document.getElementsByClassName('field');
@@ -22,6 +22,7 @@ let defaultPlayer = 'X';
     templateUrl: './engine.component.html',
     styleUrls: ['./engine.component.css']
 })
+
 
 export class EngineComponent implements OnInit {
     private gameList = GAME_FIELDS_AREA;
