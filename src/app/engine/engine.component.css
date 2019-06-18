@@ -1,8 +1,8 @@
 #game-area {
     width: 1100px;
-    height: 700px;
     display: flex;
     flex-wrap: wrap;
+    margin: 20px;
     background: #3678ad;
     -webkit-box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
@@ -47,6 +47,7 @@ header {
     justify-content: center;
 }
 
+.col:last-of-type,
 .col:first-of-type {
     justify-content: flex-end;
     flex-wrap: nowrap;
@@ -54,7 +55,6 @@ header {
 
 .col:last-of-type {
     justify-content: flex-start;
-    flex-wrap: nowrap;
 }
 
 .field {
@@ -73,7 +73,6 @@ header {
     width: 111px;
     height: 111px;
 }
-
 
 .field:hover {
     cursor: pointer;
@@ -158,6 +157,7 @@ button {
     font-weight: 700;
     width: 100%;
     border: none;
+    padding: 5px 0;
     text-transform: uppercase;
     font-size: 40px;
     line-height: 40px;
@@ -209,9 +209,6 @@ button:hover {
 
 
 @media screen and (max-width: 1690px) {
-    #game-area {
-        height: 570px;
-    }
     #game-fields {
         grid-template-rows: repeat(3, 100px);
         grid-template-columns: repeat(3, 100px);
@@ -243,15 +240,81 @@ button:hover {
 }
 @media screen and (max-width: 1280px) {
     #game-area {
-        width: auto;
-        margin: 0 20px;
+        display: block;
+        margin: 0;
+        width: 100%;
     }
 }
 @media screen and (max-width: 768px) {
+    .container {
+        display: block;
+        min-height: auto;
+    }
     #game-area {
         height: auto;
+        box-shadow: none;
+        background: none;
     }
-    .field-area .col {
-        width: auto;
+    .field-area .col { width: auto; }
+    .field-area .col:first-of-type,
+    .field-area .col:last-of-type {
+        width: calc(100% - 320px / 2);
+    }
+    #notifications { display: block; }
+}
+@media screen and (max-width: 580px) {
+    .col {padding: 0 10px;}
+    .col:first-of-type {padding: 0 0 0 10px;}
+    .col:last-of-type {padding: 0 10px 0 0;}
+    .field.active-0::ng-deep div::after,
+    #icon-noughts {
+        width: 48px;
+        height: 48px;
+        border-radius: 48px;
+    }
+    .field.active-0::ng-deep div::before, #icon-noughts::before {
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
+        top: 9px;
+        left: 9px;
+    }
+
+    .field.active-0::ng-deep div::before {
+        top: calc(50% - 30px / 2);
+        left: calc(50% - 30px / 2);
+    }
+
+    #icon-cross {
+        width: 48px;
+        height: 48px;
+    }
+
+    .active-X::ng-deep div::after,
+    .active-X::ng-deep div::before,
+    #icon-cross::after,
+    #icon-cross::before {
+        width: 48px;
+        height: 10px;
+        border-radius: 10px;
+        top: calc(50% - 10px / 2);
+        left: calc(50% - 48px / 2);
+    }
+
+    #game-fields {
+        grid-template-rows: repeat(3, 64px);
+        grid-template-columns: repeat(3, 64px);
+    }
+    .field {
+        width: 60px;
+        height: 60px;
+    }
+    button {max-width: 280px;}
+
+    #game-fields.disabled .field.strikethrough.diagonal-rl::before,
+    #game-fields.disabled .field.strikethrough.diagonal-lr::before {
+        left: 28px;
+        height: 92px;
+        top: -16px;
     }
 }
