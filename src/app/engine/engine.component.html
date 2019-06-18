@@ -1,0 +1,21 @@
+<section id="game-area">
+   <header id="notifications">{{notification}}</header>
+   <section class="field-area">
+       <div class="col">
+           <div id="icon-noughts" class="player-indicated" [class.active-move]="activeNoughts"></div>
+       </div>
+       <div class="col">
+           <div id="game-fields" [class.disabled]="disableArea">
+               <div class="field" *ngFor="let item of gameList; let index = index;"
+                    [attr.index]="index"
+                    (click)="playerAction($event)"></div>
+           </div>
+       </div>
+       <div class="col">
+           <div id="icon-cross" class="player-indicated" [class.active-move]="activeCrosses"></div>
+       </div>
+   </section>
+   <footer>
+       <button (click)="startGame()" [class.hide]="!disableArea">{{gameStart ? 'Restart' : 'Start game'}}</button>
+   </footer>
+</section>

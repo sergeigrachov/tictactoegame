@@ -1,0 +1,236 @@
+#game-area {
+    width: 1105px;
+    height: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    background: #3678ad;
+    -webkit-box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -4px rgba(0, 0, 0, 0.75);
+}
+
+#notifications {
+    text-align: center;
+    color: #fff;
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.field-area {
+    display: flex;
+    align-items: center;
+}
+
+#game-fields {
+    display: grid;
+    grid-template-rows: repeat(3, 115px);
+    grid-template-columns: repeat(3, 115px);
+}
+#game-fields.disabled .field:hover {
+    cursor: default;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+section,
+footer,
+header {
+    width: 100%;
+}
+
+.col {
+    width: calc(100% / 3);
+    padding: 0 25px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col:first-of-type {
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+}
+
+.col:last-of-type {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+
+.field {
+    border: 4px solid rgba(255, 255, 255, 0.5);
+    width: 111px;
+    height: 111px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+}
+.field::ng-deep div {position: relative;}
+
+.stroke {
+    width: 111px;
+    height: 111px;
+}
+
+
+.field:hover {
+    cursor: pointer;
+    border-color: rgba(255, 255, 255, 1);
+}
+
+.field.active-0::ng-deep div::after,
+#icon-noughts {
+    position: relative;
+    width: 78px;
+    height: 78px;
+    background: #cc133d;
+    border-radius: 78px;
+}
+.field.active-0::ng-deep div::after {
+    content: '';
+    display: block;
+}
+
+.field.active-0::ng-deep div::before,
+#icon-noughts::before {
+    content: '';
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50px;
+    background: #3678ad;
+    top: 14px;
+    left: 14px;
+    z-index: 1;
+}
+.field.active-0::ng-deep div::before {
+    top: calc(50% - 50px / 2);
+    left: calc(50% - 50px / 2);
+}
+#icon-cross {
+    position: relative;
+}
+.active-X::ng-deep div::after,
+.active-X::ng-deep div::before,
+#icon-cross::after,
+#icon-cross::before {
+    content: '';
+    width: 84px;
+    height: 12px;
+    border-radius: 12px;
+    position: absolute;
+    background: #5fd3ee;
+    transform: rotate(45deg);
+    top: calc(50% - 12px / 2);
+    left: calc(50% - 84px / 2);
+}
+#icon-cross::after,
+#icon-cross::before {left: 0;}
+
+.active-X::ng-deep div::after,
+#icon-cross::after {
+    transform: rotate(-45deg);
+}
+.player-indicated.active-move {
+    transform: scale(1.3);
+    transition: all 0.5s ease;
+}
+#icon-noughts.active-move {
+    background: #e60e3f;
+}
+#icon-cross.active-move::after,
+#icon-cross.active-move::before {
+    background: #15d3ff;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+}
+button {
+    margin: 25px 0;
+    background: #91c5e4;
+    color: #186aa7;
+    font-weight: 700;
+    width: 100%;
+    border: none;
+    text-transform: uppercase;
+    font-size: 40px;
+    line-height: 20px;
+    max-width: 357px;
+    -webkit-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
+button:hover {
+    background: #6fc9ff;
+    cursor: pointer;
+}
+
+/* Strikethrough */
+
+#game-fields.disabled .field.strikethrough::before {
+    content: '';
+    position: absolute;
+    z-index: 5;
+    background: #fff;
+}
+#game-fields.disabled .field.strikethrough.diagonal-rl::before,
+#game-fields.disabled .field.strikethrough.diagonal-lr::before,
+#game-fields.disabled .field.strikethrough.vertical::before{
+    width: 4px;
+    height: 100%;
+    top: 0;
+    left: calc(50% - 4px / 2);
+}
+
+#game-fields.disabled .field.strikethrough.horizontal::before {
+    width: 100%;
+    height: 4%;
+    left: 0;
+    top: calc(50% - 4px / 2);
+}
+#game-fields.disabled .field.strikethrough.diagonal-rl::before,
+#game-fields.disabled .field.strikethrough.diagonal-lr::before {
+    left: 53px;
+    transform: rotate(-45deg);
+    height: 163px;
+    top: -26px;
+}
+#game-fields.disabled .field.strikethrough.diagonal-rl::before {
+    transform: rotate(45deg);
+}
+
+
+
+@media screen and (max-width: 1580px) {
+    #game-area {
+        height: 570px;
+    }
+    #game-fields {
+        grid-template-rows: repeat(3, 100px);
+        grid-template-columns: repeat(3, 100px);
+    }
+    .field {
+        border: 4px solid rgba(255, 255, 255, 0.5);
+        width: 96px;
+        height: 96px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0;
+    }
+    #icon-cross::before,
+    #icon-cross::after {
+        left: calc(50% - 84px / 2);
+    }
+    #game-fields.disabled .field.strikethrough.diagonal-rl::before,
+    #game-fields.disabled .field.strikethrough.diagonal-lr::before {
+        left: 46px;
+        height: 142px;
+        top: -23px;
+    }
+}
+
