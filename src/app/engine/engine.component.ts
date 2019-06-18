@@ -142,7 +142,6 @@ export class EngineComponent implements OnInit {
     }
 
     public markStrikethrough(fields, winningArray) {
-        console.log(winningArray);
         const horizontalLine =  [
             ['0', '1', '2'],
             ['3', '4', '5'],
