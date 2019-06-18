@@ -1,5 +1,5 @@
 #game-area {
-    width: 1105px;
+    width: 1100px;
     height: 700px;
     display: flex;
     flex-wrap: wrap;
@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 35px 0;
 }
 
 .field-area {
@@ -43,6 +44,7 @@ header {
     padding: 0 25px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .col:first-of-type {
@@ -109,6 +111,8 @@ header {
 }
 #icon-cross {
     position: relative;
+    width: 78px;
+    height: 78px;
 }
 .active-X::ng-deep div::after,
 .active-X::ng-deep div::before,
@@ -156,8 +160,8 @@ button {
     border: none;
     text-transform: uppercase;
     font-size: 40px;
-    line-height: 20px;
-    max-width: 357px;
+    line-height: 40px;
+    max-width: 350px;
     -webkit-transition: all 300ms ease;
     -ms-transition: all 300ms ease;
     transition: all 300ms ease;
@@ -232,5 +236,22 @@ button:hover {
         height: 142px;
         top: -23px;
     }
+    button {
+        max-width: 310px;
+        font-size: 28px;
+    }
 }
-
+@media screen and (max-width: 1280px) {
+    #game-area {
+        width: auto;
+        margin: 0 20px;
+    }
+}
+@media screen and (max-width: 768px) {
+    #game-area {
+        height: auto;
+    }
+    .field-area .col {
+        width: auto;
+    }
+}
