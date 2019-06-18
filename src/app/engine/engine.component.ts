@@ -26,20 +26,20 @@ let defaultPlayer = 'X';
 
 export class EngineComponent implements OnInit {
     private gameList = GAME_FIELDS_AREA;
-    private gameStart = false;
+    private gameStart: boolean;
     private dataX: any = [];
     private dataO: any = [];
     private strikethrough: any = [];
 
     @Input()
     public notification: string;
-    public activeNoughts = false;
-    public activeCrosses = false;
-    public disableArea = true;
-    public isVertical = false;
-    public isHorizontal = false;
-    public isDiagonalLeftRight = false;
-    public isDiagonalRightLeft = false;
+    public activeNoughts: boolean;
+    public activeCrosses: boolean;
+    public disableArea: boolean;
+    public isVertical: boolean;
+    public isHorizontal: boolean;
+    public isDiagonalLeftRight: boolean;
+    public isDiagonalRightLeft: boolean;
     public target: any;
 
     public ngOnInit(): void {
@@ -55,7 +55,6 @@ export class EngineComponent implements OnInit {
         this.isHorizontal = false;
         this.isDiagonalLeftRight = false;
         this.isDiagonalRightLeft = false;
-
 
         for (const item of GAME_FIELDS) {
             const singleDiv: HTMLElement = item;
@@ -141,6 +140,7 @@ export class EngineComponent implements OnInit {
         return notification;
     }
 
+    //
     public markStrikethrough(fields, winningArray) {
         const horizontalLine =  [
             ['0', '1', '2'],
