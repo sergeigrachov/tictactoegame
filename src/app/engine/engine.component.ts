@@ -112,8 +112,8 @@ export class EngineComponent implements OnInit {
                 if (this.dataO.length > 2 && this.checkWin(this.dataO, cellAttribute)) {
                     this.disableArea = true;
                     this.notification = defaultPlayer + ' win';
-                    this.activeNoughts = false;
-                    this.activeCrosses = true;
+                    this.activeNoughts = true;
+                    this.activeCrosses = false;
                     this.markStrikethrough(GAME_FIELDS, this.strikethrough);
                     return defaultPlayer = 'X';
                 } else {
