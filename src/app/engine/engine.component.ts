@@ -1,4 +1,5 @@
 import { Component, Input, NgModule, OnInit } from '@angular/core';
+import { element } from 'protractor';
 
 const GAME_FIELDS_AREA: string[] = new Array(9).fill('');
 const GAME_FIELDS: any = document.getElementsByClassName('field');
@@ -68,57 +69,61 @@ export class EngineComponent implements OnInit {
         this.dataO = [];
     }
 
+    // Click on field event
     public playerAction($event): void {
-        if (this.gameStart === true && this.disableArea === false) {
-            this.target = event.target || event.srcElement || event.currentTarget;
-            const cellAttribute = this.target.attributes.index.nodeValue;
-            const innerText = this.target.innerText;
+        if (this.gameStart === false || this.disableArea === true) {
+            return;
+        }
 
-            if (!innerText) {
-                this.target.innerText = defaultPlayer;
-                const symbolElement = document.createElement('div');
-                this.target.appendChild(symbolElement);
-                this.changePlayer(cellAttribute);
-                if (this.disableArea === false) {
-                    this.notification = this.move();
-                    stepsCount++;
-                    this.draw();
-                }
+        this.target = event.target || event.srcElement || event.currentTarget;
+        const cellAttribute = this.target.attributes.index.nodeValue;
+        const innerText = this.target.innerText;
+
+        if (!innerText) {
+            this.target.innerText = defaultPlayer;
+            const symbolElement = document.createElement('div');
+            this.target.appendChild(symbolElement);
+            this.changePlayer(cellAttribute);
+            if (this.disableArea === false) {
+                this.notification = this.move();
+                stepsCount++;
+                this.draw();
             }
         }
     }
 
     public changePlayer(cellAttribute) {
-        if (this.disableArea === false) {
-            if (defaultPlayer === 'X') {
+        if (this.disableArea === true) {
+            return;
+        }
+        if (defaultPlayer === 'X') {
+            this.activeNoughts = true;
+            this.activeCrosses = false;
+            this.target.classList.add('active-' + defaultPlayer);
+            this.dataX.push(cellAttribute);
+            if (this.dataX.length > 2 && this.checkWin(this.dataX, cellAttribute)) {
+                this.disableArea = true;
+                this.notification = defaultPlayer + ' win';
+                this.activeNoughts = false;
+                this.activeCrosses = true;
+                this.markStrikethrough(GAME_FIELDS, this.strikethrough);
+            } else {
+                return defaultPlayer = '0';
+            }
+        } else {
+            this.activeCrosses = true;
+            this.activeNoughts = false;
+            this.target.classList.add('active-' + defaultPlayer);
+            this.dataO.push(cellAttribute);
+            if (this.dataO.length > 2 && this.checkWin(this.dataO, cellAttribute)) {
+                this.disableArea = true;
+                this.notification = defaultPlayer + ' win';
                 this.activeNoughts = true;
                 this.activeCrosses = false;
-                this.target.classList.add('active-' + defaultPlayer);
-                this.dataX.push(cellAttribute);
-                if (this.dataX.length > 2 && this.checkWin(this.dataX, cellAttribute)) {
-                    this.disableArea = true;
-                    this.notification = defaultPlayer + ' win';
-                    this.activeNoughts = false;
-                    this.activeCrosses = true;
-                    this.markStrikethrough(GAME_FIELDS, this.strikethrough);
-                } else {
-                    return defaultPlayer = '0';
-                }
+                this.markStrikethrough(GAME_FIELDS, this.strikethrough);
+                return defaultPlayer = 'X';
             } else {
-                this.activeCrosses = true;
-                this.activeNoughts = false;
-                this.target.classList.add('active-' + defaultPlayer);
-                this.dataO.push(cellAttribute);
-                if (this.dataO.length > 2 && this.checkWin(this.dataO, cellAttribute)) {
-                    this.disableArea = true;
-                    this.notification = defaultPlayer + ' win';
-                    this.activeNoughts = true;
-                    this.activeCrosses = false;
-                    this.markStrikethrough(GAME_FIELDS, this.strikethrough);
-                    return defaultPlayer = 'X';
-                } else {
-                    return defaultPlayer = 'X';
-                }
+                return defaultPlayer = 'X';
             }
         }
     }
@@ -140,7 +145,7 @@ export class EngineComponent implements OnInit {
         return notification;
     }
 
-    //
+    // Add classes for fields
     public markStrikethrough(fields, winningArray) {
         const horizontalLine =  [
             ['0', '1', '2'],
@@ -152,38 +157,30 @@ export class EngineComponent implements OnInit {
             ['1', '4', '7'],
             ['2', '5', '8']
         ];
-        const diagonalFirst =  [
-            ['0', '4', '8']
-        ];
-        const diagonalSecond =  [
-            ['2', '4', '6']
-        ];
-
+        const diagonalFirst = ['0', '4', '8'];
+        const diagonalSecond = ['2', '4', '6'];
         const winingCombination = winningArray.join('');
 
-        for (let v = 0, vLen = verticalLine.length; v < vLen; v++) {
-            const verticalSingle = verticalLine[v].join('');
+        verticalLine.forEach((v, index) =>  {
+            const verticalSingle = verticalLine[index].join('');
             if (verticalSingle === winingCombination) {
                 this.isVertical = true;
             }
-        }
-        for (let h = 0, hLen = horizontalLine.length; h < hLen; h++) {
-            const horizontalSingle = horizontalLine[h].join('');
+        });
+
+        horizontalLine.forEach((v, index) =>  {
+            const horizontalSingle = horizontalLine[index].join('');
             if (horizontalSingle === winingCombination) {
                 this.isHorizontal = true;
             }
+        });
+
+        if (diagonalFirst.join('') === winingCombination) {
+            this.isDiagonalLeftRight = true;
         }
-        for (let d = 0, dLen = diagonalFirst.length; d < dLen; d++) {
-            const diagonalLeftRight = diagonalFirst[d].join('');
-            if (diagonalLeftRight === winingCombination) {
-                this.isDiagonalLeftRight = true;
-            }
-        }
-        for (let d = 0, dLen = diagonalSecond.length; d < dLen; d++) {
-            const diagonalRightLeft = diagonalSecond[d].join('');
-            if (diagonalRightLeft === winingCombination) {
-                this.isDiagonalRightLeft = true;
-            }
+
+        if (diagonalSecond.join('') === winingCombination) {
+            this.isDiagonalRightLeft = true;
         }
 
         for (let i = 0, iLen = winningArray.length; i < iLen; i++) {
@@ -205,10 +202,11 @@ export class EngineComponent implements OnInit {
                     singleCell.classList.add('strikethrough', 'diagonal-rl');
                 }
             }
-
         }
     }
 
+
+    // Check winner combination
     public checkWin(arr, number) {
         for (let w = 0, wLen = WINNING_COMBINATIONS.length; w < wLen; w++) {
             const someWinArr = WINNING_COMBINATIONS[w];
